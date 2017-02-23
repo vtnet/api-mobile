@@ -31,8 +31,6 @@ class MobileRequest extends Controller{
     	$this->validate($request, [
     		'data' => 'required'
 		]);
-
-
   
         $arr =  json_decode($request->input('data'),true);
 
@@ -49,7 +47,7 @@ class MobileRequest extends Controller{
 		    		'destino'=>$arr[$i]['destino'],
 		    		'localizacao'=>$arr[$i]['localizacao']
 		    		]);
-
+	    			$retorno['sucess'][]=$arr[$i];
 	    		}else{
 	    			$retorno['erro'][]=$arr[$i];
 	    		}
