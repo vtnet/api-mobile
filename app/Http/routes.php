@@ -12,7 +12,11 @@
 */
 
 $app->get('/', function() use ($app) {
-    return "Lumen RESTful API By CoderExample (https://coderexample.com)";
+    return $app->version();  
+});
+
+$app->get('/jorge', function() use ($app) {
+   return $app->version();  
 });
  
 $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers'], function($app)
