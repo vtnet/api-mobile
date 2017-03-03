@@ -18,7 +18,7 @@ $app->get('/', function() use ($app) {
 $app->get('/jorge', function() use ($app) {
     return "Lumen RESTful API By CoderExample (https://coderexample.com)";
 });
- 
+     
 $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers'], function($app)
 {
     $app->get('voz','MobileRequest@index');
