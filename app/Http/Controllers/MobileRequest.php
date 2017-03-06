@@ -32,7 +32,7 @@ class MobileRequest extends Controller{
     		'data' => 'required'
 		]);
   
-        $arr =  json_decode($request->input('data'),true);
+        $arr =  $request->input('data');
 
         	$retorno=array();
 	    	for($i=0,$C=count($arr); $i<$C; $i++){
