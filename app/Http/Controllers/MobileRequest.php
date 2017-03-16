@@ -28,35 +28,36 @@ class MobileRequest extends Controller{
   
     public function create(Request $request){
 
-    	$this->validate($request, [
-    		'data' => 'required'
-		]);
-  
-        $arr =  $request->input('data');
+        if ($request->isJson())
+        {
+            $arr =  $request->all();
 
         	$retorno=array();
-	    	for($i=0,$C=count($arr); $i<$C; $i++){
+        	for($i=0,$C=count($arr); $i<$C; $i++){
+
+        		if($this->validateDate($arr[$i]['data_inicio'])){
+        			MobileRequestModel::create(
+    	    		['data_inicio'=>$arr[$i]['data_inicio'],
+    	    		'data_fim'=>$arr[$i]['data_fim'],
+    	    		'origem'=>$arr[$i]['origem'],
+    	    		'destino'=>$arr[$i]['destino'],
+    	    		'localizacao'=>$arr[$i]['localizacao']
+    	    		]);
+        			$retorno['sucess'][]=$arr[$i];
+        		}else{
+        			$retorno['erro'][]=$arr[$i];
+        		}
+        	}
+
+            return response()->json($retorno);
+        }else{
+            $content = $request->header('content-type');
+            $retorno['error']['code']=203;
+            $retorno['error']['description'] ='O "Content-Type" HTTP “'.$content.'” não é suportado. Falha no carregamento da mídia';
 
 
-	    		if($this->validateDate($arr[$i]['data_inicio']) && $this->validateDate($arr[$i]['data_fim'])){
-
-	    			MobileRequestModel::create(
-		    		['data_inicio'=>$arr[$i]['data_inicio'],
-		    		'data_fim'=>$arr[$i]['data_fim'],
-		    		'origem'=>$arr[$i]['origem'],
-		    		'destino'=>$arr[$i]['destino'],
-		    		'localizacao'=>$arr[$i]['localizacao']
-		    		]);
-	    			$retorno['sucess'][]=$arr[$i];
-	    		}else{
-	    			$retorno['erro'][]=$arr[$i];
-	    		}
-	    	}
-
-
-  
-  
-        return response()->json($retorno);
+            return response()->json([$retorno], 203);
+        }
   
     }
 

@@ -18,6 +18,18 @@ $app->get('/', function() use ($app) {
 $app->get('/jorge', function() use ($app) {
     return "Lumen RESTful API By CoderExample (https://coderexample.com)";
 });
+
+
+
+$app->post('/user', function() use ($app) {
+
+	$retorno['a']=true;
+	$retorno['created']=true;
+	$retorno['b']=true;
+
+    return response()->json($retorno);
+});
+
      
 $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers'], function($app)
 {
