@@ -20,26 +20,39 @@ $app->get('/jorge', function() use ($app) {
 });
 
 
+// $app->post('/user', function() use ($app) {
 
-$app->post('/user', function() use ($app) {
+// 	$retorno['a']=true;
+// 	$retorno['created']=true;
+// 	$retorno['b']=true;
 
-	$retorno['a']=true;
-	$retorno['created']=true;
-	$retorno['b']=true;
+//     return response()->json($retorno);
+// });
 
-    return response()->json($retorno);
-});
+  
 
-     
-$app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers'], function($app)
+$app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middleware' => 'headerjson'], function($app)
 {
+    ## Autenticação
+    $app->post('login','LoginController@get');
+
     $app->get('voz','MobileRequest@index');
+    $app->post('voz','MobileRequest@create');
   
     // $app->get('teste/{id}','MobileRequest@getbook');
-      
-    $app->post('voz','MobileRequest@create');
-      
     // $app->put('teste/{id}','MobileRequest@updateBook');
-      
     // $app->delete('teste/{id}','MobileRequest@deleteBook');
+   
 });
+
+
+$app->group(['prefix' => 'api/v1','middleware' => ['token', 'headerjson'], 'namespace' => 'App\Http\Controllers'], function ($app) {
+
+     $app->post('mobile','MobileController@create');     
+    
+});
+
+
+
+
+

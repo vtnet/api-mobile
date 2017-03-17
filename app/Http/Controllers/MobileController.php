@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
   
   
-class MobileRequest extends Controller{
+class MobileController extends Controller{
   
  	public function index(){
   
@@ -27,10 +27,10 @@ class MobileRequest extends Controller{
     }
   
     public function create(Request $request){
-
+echo md5(1);
         
         $arr =  $request->all();
-
+        dd($arr);
     	$retorno=array();
     	for($i=0,$C=count($arr); $i<$C; $i++){
 
@@ -42,7 +42,7 @@ class MobileRequest extends Controller{
 	    		'destino'=>$arr[$i]['destino'],
 	    		'localizacao'=>$arr[$i]['localizacao']
 	    		]);
-    			$retorno['sucess'][]=$arr[$i];
+    			$retorno['success'][]=$arr[$i];
     		}else{
     			$retorno['erro'][]=$arr[$i];
     		}
