@@ -11,20 +11,7 @@ use Illuminate\Http\Request;
   
 class MobileController extends Controller{
   
- 	public function index(){
-  
-        $Books  = MobileRequestModel::all();
-  
-        return response()->json($Books);
-  
-    }
-  
-    public function getBook($id){
-  
-        $Book  = MobileRequest::find($id);
-  
-        return response()->json($Book);
-    }
+
   
     public function create(Request $request){
 echo md5(1);

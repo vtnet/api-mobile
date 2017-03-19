@@ -28,6 +28,6 @@ class Telefones extends Migration
      */
     public function down()
     {
-        Schema::drop('Telefones');
+        Schema::drop('telefones');
     }
 }

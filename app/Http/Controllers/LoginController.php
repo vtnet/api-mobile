@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Validator;
 use App\Http\Controllers\Controller;
 use App\Http\Model\MobileRequestModel;
+use App\Http\Model\AppInstallModel;
+use App\Http\Model\TelefoneModel;
 use Illuminate\Http\Request;
 
 
@@ -24,18 +26,49 @@ class LoginController extends Controller{
             // $arr =  $request->all();
             // dd($arr);
 
-        // $arr =  $request->all();
-        return response()->json(array('token'=>'7sd6g8f7sdg78fsdg7fsd'));
-    }
+
+       /**
+        * Necessario fazer CURL datasca. retornado informaceos
+        */
+
+
+        /**
+         * Verificando se exite
+         */
+        $rs=TelefoneModel::where('numero', '11988161442')->first();
+        // dd($rs);
+
+        if($rs){
+            echo 'tem';
+
+
+        }
+        else{
+            echo 'nao tem';
+            /**
+             * Registra toda vez que o app for cadastrado.
+             */
+            AppInstallModel::create(['telefones_id'=>1]);
+        }
+
+        // $rs = TelefoneModel::create(['numero'=>'11988161442','nome'=>"Jorge Goulart",'senha'=>'12345']);
 
 
 
 
-  
- //    public function create(Request $request){
 
- //        if ($request->isJson())
- //        {
+            // $arr =  $request->all();
+            return response()->json(array('token'=>'7sd6g8f7sdg78fsdg7fsd'));
+        }
+
+
+
+
+      
+     //    public function create(Request $request){
+
+     //        if ($request->isJson())
+     //        {
  //            $arr =  $request->all();
 
  //        	$retorno=array();
