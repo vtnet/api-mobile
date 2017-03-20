@@ -12,54 +12,74 @@ use Illuminate\Http\Request;
 
 class LoginController extends Controller{
   
-  
+    /**
+     * [get description]
+     * @param  Request $request [Requisição HTTP]
+     * @return [json]           [Retorna um json com o token do usuario]
+     */
     public function get(Request $request){
   
-        // $Book  = MobileRequest::find($id);
-        
- 
+        $this->validate['min']='dfdf';
+
         $this->validate($request, [
-            'numero' => 'required|min:8',
+            'numero' => 'required|min:10|max:20',
             'senha' => 'required',
         ]);
 
-            // $arr =  $request->all();
-            // dd($arr);
+        $numero = filter_var($request->input('numero'), FILTER_SANITIZE_STRING);
+        $senha = filter_var($request->input('senha'), FILTER_SANITIZE_STRING);
 
+        $fields = array(
+            't_principal' => 'dfug8df8gdf9fg9d',
+            'numero' => urlencode($numero),
+            'senha' => urlencode($senha)
+        );
 
-       /**
-        * Necessario fazer CURL datasca. retornado informaceos
-        */
+        $url = 'http://sistema.setaconsultoria.com.br/api_autenticacao_numero.php';
+        $ch = curl_init($url);
 
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept: application/json'));
+        curl_setopt($ch, CURLOPT_URL,$url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        curl_setopt($ch,CURLOPT_POST, count($fields));
+        curl_setopt($ch,CURLOPT_POSTFIELDS, $fields);
+        curl_setopt($ch, CURLINFO_HEADER_OUT, 1);
+        $output = json_decode(curl_exec($ch), true);
+        $info = curl_getinfo($ch);
+        $http_result = $info ['http_code'];
+        curl_close ($ch);
 
-        /**
-         * Verificando se exite
-         */
-        $rs=TelefoneModel::where('numero', '11988161442')->first();
-        // dd($rs);
-
-        if($rs){
-            echo 'tem';
-
-
+        switch ($http_result) {
+            case '200':
+                # code...
+                break;
+            case '203': // Sem permissao
+                return response()->json(array('error'=>'Numero não autorizado.'),203);
+                break;
+            
+            default:
+                return response()->json(array('error'=>'Erro interno: Consulta API datascam'),$http_result);
+                break;
         }
-        else{
-            echo 'nao tem';
+
+        $token = md5($output['id']);
+        $id_datascan = $output['id'];
+        $nome = $output['nome'];
+
+        $rs=TelefoneModel::where('numero', $numero)->first();
+
+        if(!$rs){
+
             /**
-             * Registra toda vez que o app for cadastrado.
+             * Registrar toda vez que o aplicativo for instalado.
              */
-            AppInstallModel::create(['telefones_id'=>1]);
+            $rs = TelefoneModel::create(['numero'=>$numero,'nome'=>$nome,'token'=>$token,'id_datascan'=>$id_datascan]);
         }
+        AppInstallModel::create(['telefones_id'=>$rs->id]);
 
-        // $rs = TelefoneModel::create(['numero'=>'11988161442','nome'=>"Jorge Goulart",'senha'=>'12345']);
-
-
-
-
-
-            // $arr =  $request->all();
-            return response()->json(array('token'=>'7sd6g8f7sdg78fsdg7fsd'));
-        }
+        return response()->json(array('token'=>$token));
+  
+    }
 
 
 

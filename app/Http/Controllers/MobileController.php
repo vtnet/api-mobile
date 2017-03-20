@@ -14,6 +14,11 @@ class MobileController extends Controller{
 
   
     public function create(Request $request){
+
+dd($request);
+
+        die;
+
 echo md5(1);
         
         $arr =  $request->all();

@@ -16,8 +16,10 @@ class Telefones extends Migration
             $table->increments('id');
             $table->string('numero',20)->unique();
             $table->string('nome',80);
-            $table->string('senha',25);
+            $table->string('token',50);
+            $table->string('id_datascan',20);
             $table->timestamps();
+            $table->index('numero');
         });
     }
 
