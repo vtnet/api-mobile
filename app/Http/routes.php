@@ -48,8 +48,8 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
 
 $app->group(['prefix' => 'api/v1','middleware' => ['token', 'headerjson'], 'namespace' => 'App\Http\Controllers'], function ($app) {
 
-    // dd($token);
      $app->post('mobile','MobileController@create');     
+     $app->get('mobile','MobileController@index');     
     
 });
 

@@ -4,41 +4,69 @@ namespace App\Http\Controllers;
   
 use Validator;
 use App\Http\Controllers\Controller;
-use App\Http\Model\MobileRequestModel;
+use App\Http\Model\LigacoesModel;
 use Illuminate\Http\Request;
 
   
   
 class MobileController extends Controller{
   
-
+// {
+//     "ligacoes": [{
+//         "data": "2017-02-15 00:00:00",
+//         "qtd": "60",
+//         "destino": "11988161442"
+//     }, {
+//         "data": "2017-02-15 00:00:00",
+//         "qtd": "60",
+//         "destino": "11988161442"
+//     }],
+//     "sms": {
+//         "data": "2017-02-15 00:00:00",
+//         "qtd": "60",
+//         "destino": "11988161442"
+//     },
+//     "dados": {
+//         "data": "2017-02-15 00:00:00",
+//         "qtd": "60"
+//     }
+// }
   
     public function create(Request $request){
-
-dd($request);
-
-        die;
-
-echo md5(1);
+        $telefones_id=($request->User)->id;
         
         $arr =  $request->all();
-        dd($arr);
     	$retorno=array();
-    	for($i=0,$C=count($arr); $i<$C; $i++){
 
-    		if($this->validateDate($arr[$i]['data_inicio'])){
-    			MobileRequestModel::create(
-	    		['data_inicio'=>$arr[$i]['data_inicio'],
-	    		'data_fim'=>$arr[$i]['data_fim'],
-	    		'origem'=>$arr[$i]['origem'],
-	    		'destino'=>$arr[$i]['destino'],
-	    		'localizacao'=>$arr[$i]['localizacao']
-	    		]);
-    			$retorno['success'][]=$arr[$i];
-    		}else{
-    			$retorno['erro'][]=$arr[$i];
-    		}
-    	}
+        if(isset($arr['ligacoes'])){
+            $ligacoes = $arr['ligacoes'];
+        	for($i=0,$C=count($ligacoes); $i<$C; $i++){
+
+                if((isset($ligacoes[$i]['data'])) && (isset($ligacoes[$i]['qtd'])) && (isset($ligacoes[$i]['destino']))){
+
+            		if($this->validateDate($ligacoes[$i]['data'])){
+
+            			LigacoesModel::create(
+        	    		['data'=>$ligacoes[$i]['data'],
+        	    		'qtd'=>$ligacoes[$i]['qtd'],
+        	    		'destino'=>$ligacoes[$i]['destino'],
+        	    		'telefones_id'=> $telefones_id,
+        	    		'tipo'=>'local'
+        	    		]);
+            			// $retorno['success'][]=$arr[$i];
+
+
+                        // return response()->json(['bosta']);
+                    }else{
+                        // return response()->json(['bosta'=>'f']);
+                    }
+                }
+        	}
+        }
+
+        if(isset($arr['sms'])){}
+
+        if(isset($arr['dados'])){}
 
         return response()->json($retorno);
         
@@ -50,22 +78,34 @@ echo md5(1);
 	    $d = \DateTime::createFromFormat($format, $date);
 	    return $d && $d->format($format) == $date;
 	}
-  
-    public function deleteBook($id){
-        $Book  = Book::find($id);
-        $Book->delete();
+
+
+
+
+    public function index(){
+        // $Book  = Book::find($id);
+        // $Book->delete();
  
         return response()->json('deleted');
     }
+
+
   
-    public function updateBook(Request $request,$id){
-        $Book  = Book::find($id);
-        $Book->title = $request->input('title');
-        $Book->author = $request->input('author');
-        $Book->isbn = $request->input('isbn');
-        $Book->save();
+ //    public function deleteBook($id){
+ //        $Book  = Book::find($id);
+ //        $Book->delete();
+ 
+ //        return response()->json('deleted');
+ //    }
   
-        return response()->json($Book);
-    }
+ //    public function updateBook(Request $request,$id){
+ //        $Book  = Book::find($id);
+ //        $Book->title = $request->input('title');
+ //        $Book->author = $request->input('author');
+ //        $Book->isbn = $request->input('isbn');
+ //        $Book->save();
+  
+ //        return response()->json($Book);
+ //    }
  
 }

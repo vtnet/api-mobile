@@ -28,8 +28,8 @@ class TokenMiddleware
         if(!$rs)
             return response()->json(['error'=>'Token não autorizado'], 203);
 
-        // $a = $next($request);
-        // dd($next($request));
+        $request->User=$rs;
+
         return $next($request);
     }
 }
