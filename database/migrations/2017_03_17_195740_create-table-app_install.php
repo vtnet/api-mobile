@@ -16,6 +16,9 @@ class CreateTableAppInstall extends Migration
             $table->increments('id');
             $table->integer('telefones_id')->unsigned();
             $table->foreign('telefones_id')->references('id')->on('telefones');
+            $table->string('modelo', 100);
+            $table->string('id_device', 150);
+            $table->string('id_onesignal', 150);
             $table->timestamps();
         });
     }

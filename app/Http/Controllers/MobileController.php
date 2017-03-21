@@ -47,7 +47,7 @@ class MobileController extends Controller{
             		if($this->validateDate($ligacoes[$i]['data'])){
 
             			LigacoesModel::create(
-        	    		['data'=>$ligacoes[$i]['data'],
+        	    		['datatime'=>$ligacoes[$i]['data'],
         	    		'qtd'=>$ligacoes[$i]['qtd'],
         	    		'destino'=>$ligacoes[$i]['destino'],
         	    		'telefones_id'=> $telefones_id,

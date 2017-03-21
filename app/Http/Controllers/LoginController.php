@@ -24,10 +24,16 @@ class LoginController extends Controller{
         $this->validate($request, [
             'numero' => 'required|min:10|max:20',
             'senha' => 'required',
+            'modelo' => 'required',
+            'id_device' => 'required',
+            'id_onesignal' => 'required',
         ]);
 
         $numero = filter_var($request->input('numero'), FILTER_SANITIZE_STRING);
         $senha = filter_var($request->input('senha'), FILTER_SANITIZE_STRING);
+        $modelo = filter_var($request->input('modelo'), FILTER_SANITIZE_STRING);
+        $id_device = filter_var($request->input('id_device'), FILTER_SANITIZE_STRING);
+        $id_onesignal = filter_var($request->input('id_onesignal'), FILTER_SANITIZE_STRING);
 
         $fields = array(
             't_principal' => 'dfug8df8gdf9fg9d',
@@ -73,12 +79,20 @@ class LoginController extends Controller{
             /**
              * Registrar toda vez que o aplicativo for instalado.
              */
-            $rs = TelefoneModel::create(['numero'=>$numero,'nome'=>$nome,'token'=>$token,'id_datascan'=>$id_datascan]);
+            $rs = TelefoneModel::create(
+                    ['numero'=>$numero,
+                    'nome'=>$nome,
+                    'token'=>$token,
+                    'id_datascan'=>$id_datascan]);
         }
-        AppInstallModel::create(['telefones_id'=>$rs->id]);
+
+        AppInstallModel::create(['telefones_id'=>$rs->id,
+                    'modelo'=>$modelo,
+                    'id_onesignal'=>$id_onesignal,
+                    'id_device'=>$id_device]);
 
         return response()->json(array('token'=>$token));
-  
+
     }
 
 
