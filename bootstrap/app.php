@@ -70,8 +70,22 @@ $app->singleton(
 $app->routeMiddleware([
     'headerjson' => App\Http\Middleware\JsonMiddleware::class,
     'token' => App\Http\Middleware\TokenMiddleware::class,
+    'throttle' => App\Http\Middleware\ThrottleRequests::class,
 ]);
 
+
+
+function fingerprint()
+{
+    $r = request();
+    return hash('sha1', json_encode([
+        $r->url(),
+        $r->method(),
+        $r->ips(),
+        $r->header(),
+        $r->all()
+    ]));
+}
 /*
 |--------------------------------------------------------------------------
 | Register Service Providers

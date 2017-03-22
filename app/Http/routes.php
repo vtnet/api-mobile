@@ -31,7 +31,7 @@ $app->get('/jorge', function() use ($app) {
 
   
 
-$app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middleware' => 'headerjson'], function($app)
+$app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middleware' => ['headerjson','throttle:4,1']], function($app)
 {
     ## Autenticação
     $app->post('login','LoginController@get');
