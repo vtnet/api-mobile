@@ -1,5 +1,4 @@
 <?php
-
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -20,22 +19,9 @@ $app->get('/jorge', function() use ($app) {
 });
 
 
-// $app->post('/user', function() use ($app) {
-
-// 	$retorno['a']=true;
-// 	$retorno['created']=true;
-// 	$retorno['b']=true;
-
-//     return response()->json($retorno);
-// });
-
-  
 
 $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middleware' => ['headerjson','throttle:30,1']], function($app)
 {
-    ## Autenticação
-    $app->post('login','LoginController@get');
-
     $app->get('voz','MobileRequest@index');
     $app->post('voz','MobileRequest@create');
   
@@ -46,7 +32,14 @@ $app->group(['prefix' => 'api/v1','namespace' => 'App\Http\Controllers', 'middle
 });
 
 
-$app->group(['prefix' => 'api/v1','middleware' => ['token', 'headerjson'], 'namespace' => 'App\Http\Controllers'], function ($app) {
+
+$app->group(['prefix' => 'v1','namespace' => 'App\Http\Controllers', 'middleware' => ['headerjson','throttle:30,1']], function($app)
+{
+    ## Autenticação
+    $app->post('login','LoginController@get');   
+});
+
+$app->group(['prefix' => 'v1','middleware' => ['token', 'headerjson'], 'namespace' => 'App\Http\Controllers'], function ($app) {
 
      $app->post('mobile','MobileController@create');     
      $app->get('mobile','MobileController@index');     

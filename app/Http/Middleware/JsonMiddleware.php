@@ -21,9 +21,9 @@ class JsonMiddleware
         }else{
             $content = $request->header('content-type');
 
-            $retorno['description'] ='O "Content-Type" HTTP “'.$content.'” não é suportado. Falha no carregamento da mídia';
+            $retorno['error'] = 'Falha no carregamento da mídia, é necessario o Content-Type: application/json';
 
-            return response()->json([$retorno], 203);
+            return response()->json($retorno, 415);
         }
     }
 }
