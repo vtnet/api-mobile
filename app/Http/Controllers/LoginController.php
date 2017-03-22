@@ -24,7 +24,7 @@ class LoginController extends Controller{
         $this->validate($request, [
             'numero' => 'required|min:10|max:20',
             'senha' => 'required',
-            'modelo' => 'required',
+            // 'modelo' => 'required|min:0',
             'id_device' => 'required',
             'id_onesignal' => 'required',
         ]);
