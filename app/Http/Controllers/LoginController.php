@@ -19,15 +19,45 @@ class LoginController extends Controller{
      */
     public function get(Request $request){
   
-        $this->validate['min']='dfdf';
+        // $this->validate($request, [
+        //     'numero' => 'required|min:10|max:20',
+        //     'senha' => 'required',
+        //     // 'modelo' => 'required|min:0',
+        //     'id_device' => 'required',
+        //     'id_onesignal' => 'required',
+        // ]);
 
-        $this->validate($request, [
+
+        $validator = Validator::make($request->all(), [
             'numero' => 'required|min:10|max:20',
             'senha' => 'required',
             // 'modelo' => 'required|min:0',
             'id_device' => 'required',
-            'id_onesignal' => 'required',
-        ]);
+            'id_onesignal' => 'required',]);
+
+        if ($validator->fails()) {   
+            $errors = $validator->errors();
+
+            
+            if ($errors->has('numero')) {
+                $err[]= ['tipo'=>'numero', 'msg'=>$errors->first('numero')];
+            }
+
+            if ($errors->has('senha')) {
+                $err[]= ['tipo'=>'senha', 'msg'=>$errors->first('senha')];
+            }
+
+            if ($errors->has('id_device')) {
+                $err[]= ['tipo'=>'id_device', 'msg'=>$errors->first('id_device')];
+            }
+
+            if ($errors->has('id_onesignal')) {
+                $err[]= ['tipo'=>'id_onesignal', 'msg'=>$errors->first('id_onesignal')];
+            }
+
+             return response()->json(['result'=>$err], 422);
+        }
+
 
         $numero = filter_var($request->input('numero'), FILTER_SANITIZE_STRING);
         $senha = filter_var($request->input('senha'), FILTER_SANITIZE_STRING);
