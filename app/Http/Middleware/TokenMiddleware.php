@@ -18,7 +18,7 @@ class TokenMiddleware
     {
         if($request->header('x-auth-token')==NULL){
             $retorno['error'] ='Token não autorizado';
-            return response()->json($retorno, 203);
+            return response()->json(['status'=>['code'=>203,'mensagem'=>'Token não autorizado']], 203);
         }
 
         $token = filter_var($request->header('x-auth-token'), FILTER_SANITIZE_STRING);
@@ -26,7 +26,7 @@ class TokenMiddleware
         $rs=TelefoneModel::where('token', $token)->first();
 
         if(!$rs)
-            return response()->json(['error'=>'Token não autorizado'], 203);
+            return response()->json(['status'=>['code'=>203,'mensagem'=>'Token não autorizado']], 203);
 
         $request->User=$rs;
 

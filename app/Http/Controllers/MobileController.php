@@ -56,12 +56,16 @@ class MobileController extends Controller{
             			// $retorno['success'][]=$arr[$i];
 
 
-                        // return response()->json(['bosta']);
+                        
                     }else{
                         // return response()->json(['bosta'=>'f']);
                     }
                 }
         	}
+
+
+
+            return response()->json(['status'=>['code'=>200,'mensagem'=>'Enviado com sucesso']],200);
         }
 
         if(isset($arr['sms'])){}

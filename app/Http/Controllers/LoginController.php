@@ -90,11 +90,13 @@ class LoginController extends Controller{
                 # code...
                 break;
             case '203': // Sem permissao
-                return response()->json(array('error'=>'Numero não autorizado.'),203);
+                return response()->json(['status'=>['code'=>203,'mensagem'=>'Número ou senha inválida']],203);
+                // return response()->json(array('error'=>'Numero não autorizado.'),203);
                 break;
             
             default:
-                return response()->json(array('error'=>'Erro interno: Consulta API datascam'),$http_result);
+                return response()->json(['status'=>['code'=>500,'mensagem'=>'Erro interno: Consulta API datascam']],500);
+                // return response()->json(array('error'=>'Erro interno: Consulta API datascam'),$http_result);
                 break;
         }
 
@@ -121,7 +123,8 @@ class LoginController extends Controller{
                     'id_onesignal'=>$id_onesignal,
                     'id_device'=>$id_device]);
 
-        return response()->json(array('token'=>$token));
+        return response()->json(['status'=>['code'=>200,'mensagem'=>'OK'], 'token'=>$token]);
+        // return response()->json(array('token'=>$token));
 
     }
 
