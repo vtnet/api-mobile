@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
   
 use Validator;
+use Log;
 use App\Http\Controllers\Controller;
 use App\Http\Model\LigacoesModel;
 use Illuminate\Http\Request;
@@ -11,6 +12,28 @@ use Illuminate\Http\Request;
   
 class MobileController extends Controller{
   
+
+
+    public function index(){
+Log::alert('fff');
+        $array['status']=['code'=>200,'mensagem'=>'Enviado com sucesso'];
+        $array['ligacao']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
+        $array['ligacao']['local']=['consumo'=>100,'limite'=>500];
+        $array['ligacao']['roaming']=['consumo'=>100,'limite'=>500];
+
+        $array['sms']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
+        $array['sms']['local']=['consumo'=>100,'limite'=>500];
+        $array['sms']['roaming']=['consumo'=>100,'limite'=>500];
+
+        $array['dados']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
+        $array['dados']['local']=['consumo'=>100,'limite'=>500];
+        $array['dados']['roaming']=['consumo'=>100,'limite'=>500];
+
+
+        return response()->json($array);
+    }
+
+
 // {
 //     "ligacoes": [{
 //         "data": "2017-02-15 00:00:00",
@@ -54,16 +77,12 @@ class MobileController extends Controller{
         	    		'tipo'=>'local'
         	    		]);
             			// $retorno['success'][]=$arr[$i];
-
-
-                        
+  
                     }else{
                         // return response()->json(['bosta'=>'f']);
                     }
                 }
         	}
-
-
 
             return response()->json(['status'=>['code'=>200,'mensagem'=>'Enviado com sucesso']],200);
         }
@@ -73,8 +92,7 @@ class MobileController extends Controller{
         if(isset($arr['dados'])){}
 
         return response()->json($retorno);
-        
-  
+
     }
 
     function validateDate($date, $format = 'Y-m-d H:i:s')
@@ -86,12 +104,7 @@ class MobileController extends Controller{
 
 
 
-    public function index(){
-        // $Book  = Book::find($id);
-        // $Book->delete();
- 
-        return response()->json('deleted');
-    }
+   
 
 
   
