@@ -34,9 +34,9 @@ class ProcessaRegistros implements ShouldQueue
     {
 
 
-        $a = fopen(storage_path('logs/jorginho.log'),'a+');
+        $a = fopen(storage_path('logs/'.$this->json.'.log'),'a+');
         for ($i=0; $i < 1000000; $i++) { 
-            fwrite($a, $this->json."\n");
+            fwrite($a, $this->json.$i."\n");
         }
     }
 }

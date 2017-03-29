@@ -85,11 +85,8 @@ class MobileController extends Controller{
         if(isset($arr['ligacoes'])){
             $ligacoes = $arr['ligacoes'];
 
-
-
-
-            $job = (new ProcessaRegistros('jog'))->delay(60);
-            dispatch($job);
+            // $job = (new ProcessaRegistros('jog'))->delay(60);
+            dispatch(new ProcessaRegistros(date('H_i_s')));
 
             for($i=0,$C=count($ligacoes); $i<$C; $i++){
 
