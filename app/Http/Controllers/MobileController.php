@@ -2,14 +2,15 @@
   
 namespace App\Http\Controllers;
   
-use Validator;
-// use Log;
 use App\Http\Controllers\Controller;
 use App\Http\Model\LigacoesModel;
+use App\Jobs\ProcessaRegistros;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Monolog\Logger;
-use Monolog\Handler\StreamHandler;
 use Monolog\Handler\FirePHPHandler;
+use Monolog\Handler\StreamHandler;
+use Monolog\Logger;
+use Validator;
   
 class MobileController extends Controller{
   
@@ -83,12 +84,20 @@ class MobileController extends Controller{
 
         if(isset($arr['ligacoes'])){
             $ligacoes = $arr['ligacoes'];
-        	for($i=0,$C=count($ligacoes); $i<$C; $i++){
+
+
+
+
+            $job = (new ProcessaRegistros('jog'))->delay(60);
+            dispatch($job);
+
+            for($i=0,$C=count($ligacoes); $i<$C; $i++){
 
                 if((isset($ligacoes[$i]['data'])) && (isset($ligacoes[$i]['qtd'])) && (isset($ligacoes[$i]['destino']))){
+            dd($ligacoes[$i]);
 
             		if($this->validateDate($ligacoes[$i]['data'])){
-
+                        dd($ligacoes);
             			LigacoesModel::create(
         	    		['datatime'=>$ligacoes[$i]['data'],
         	    		'qtd'=>$ligacoes[$i]['qtd'],
