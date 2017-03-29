@@ -45,6 +45,22 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $e)
     {
+        if ($request->ajax() || $request->isJson()) {
+            return response()->json(
+                ['status'=>
+                    ['code'=>$this->getExceptionHTTPStatusCode($e),'mensagem'=>$e->getMessage()]], 
+                  $this->getExceptionHTTPStatusCode($e)
+            );
+        }
+
         return parent::render($request, $e);
     }
+
+    protected function getExceptionHTTPStatusCode($e){
+        // Not all Exceptions have a http status code
+        // We will give Error 500 if none found
+        return method_exists($e, 'getStatusCode') ? 
+                         $e->getStatusCode() : 500;
+    }
+
 }

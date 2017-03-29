@@ -3,19 +3,39 @@
 namespace App\Http\Controllers;
   
 use Validator;
-use Log;
+// use Log;
 use App\Http\Controllers\Controller;
 use App\Http\Model\LigacoesModel;
 use Illuminate\Http\Request;
-
-  
+use Monolog\Logger;
+use Monolog\Handler\StreamHandler;
+use Monolog\Handler\FirePHPHandler;
   
 class MobileController extends Controller{
   
 
 
     public function index(){
-Log::alert('fff');
+// Log::alert('fff');
+
+
+// $log = new Logger('a');
+// $log->pushHandler(new StreamHandler(storage_path('logs/lumen23.log'), Logger::WARNING));
+
+// // add records to the log
+// // $log->warning('Foo');
+// // $log->error('Bar');
+// $log->info('My logger is now ready');
+
+// $logger = new Logger('my_logger');
+// // Now add some handlers
+// $logger->pushHandler(new StreamHandler(storage_path('logs/lumen23.log'), Logger::DEBUG));
+// $logger->pushHandler(new FirePHPHandler());
+
+// // You can now use your logger
+// $logger->info('My logger is now ready');
+
+
         $array['status']=['code'=>200,'mensagem'=>'Enviado com sucesso'];
         $array['ligacao']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
         $array['ligacao']['local']=['consumo'=>100,'limite'=>500];
