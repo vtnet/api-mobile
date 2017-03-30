@@ -54,83 +54,22 @@ class MobileController extends Controller{
         return response()->json($array);
     }
 
-
-// {
-//     "ligacoes": [{
-//         "data": "2017-02-15 00:00:00",
-//         "qtd": "60",
-//         "destino": "11988161442"
-//     }, {
-//         "data": "2017-02-15 00:00:00",
-//         "qtd": "60",
-//         "destino": "11988161442"
-//     }],
-//     "sms": {
-//         "data": "2017-02-15 00:00:00",
-//         "qtd": "60",
-//         "destino": "11988161442"
-//     },
-//     "dados": {
-//         "data": "2017-02-15 00:00:00",
-//         "qtd": "60"
-//     }
-// }
+   
   
-    public function create(Request $request){
+
+    public function post(Request $request){
         $telefones_id=($request->User)->id;
-        
-        $arr =  $request->all();
-    	$retorno=array();
+        $arr =  json_encode($request->all());
 
-        if(isset($arr['ligacoes'])){
-            $ligacoes = $arr['ligacoes'];
+        // $job = (new ProcessaRegistros($telefones_id, $arr))
+        //             ->delay(Carbon::now()->addMinutes(1));
+        // dispatch($job);
+        // 
+        dispatch(new ProcessaRegistros($telefones_id, $arr));
 
-            // $job = (new ProcessaRegistros('jog'))->delay(60);
-            dispatch(new ProcessaRegistros(date('H_i_s')));
-
-            for($i=0,$C=count($ligacoes); $i<$C; $i++){
-
-                if((isset($ligacoes[$i]['data'])) && (isset($ligacoes[$i]['qtd'])) && (isset($ligacoes[$i]['destino']))){
-            dd($ligacoes[$i]);
-
-            		if($this->validateDate($ligacoes[$i]['data'])){
-                        dd($ligacoes);
-            			LigacoesModel::create(
-        	    		['datatime'=>$ligacoes[$i]['data'],
-        	    		'qtd'=>$ligacoes[$i]['qtd'],
-        	    		'destino'=>$ligacoes[$i]['destino'],
-        	    		'telefones_id'=> $telefones_id,
-        	    		'tipo'=>'local'
-        	    		]);
-            			// $retorno['success'][]=$arr[$i];
-  
-                    }else{
-                        // return response()->json(['bosta'=>'f']);
-                    }
-                }
-        	}
-
-            return response()->json(['status'=>['code'=>200,'mensagem'=>'Enviado com sucesso']],200);
-        }
-
-        if(isset($arr['sms'])){}
-
-        if(isset($arr['dados'])){}
-
-        return response()->json($retorno);
-
+        return response()->json(['status'=>['code'=>200,'mensagem'=>'Enviado com sucesso']],200);
     }
 
-    function validateDate($date, $format = 'Y-m-d H:i:s')
-	{
-	    $d = \DateTime::createFromFormat($format, $date);
-	    return $d && $d->format($format) == $date;
-	}
-
-
-
-
-   
 
 
   
