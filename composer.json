@@ -1,6 +1,6 @@
 {
-    "name": "laravel/lumen",
-    "description": "The Laravel Lumen Framework.",
+    "name": "vtnet/api-mobile",
+    "description": "Sistema desenvolvido para consumo do mobile",
     "keywords": ["framework", "laravel", "lumen"],
     "license": "MIT",
     "type": "project",

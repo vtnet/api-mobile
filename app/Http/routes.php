@@ -41,7 +41,7 @@ $app->group(['prefix' => 'v1','namespace' => 'App\Http\Controllers', 'middleware
 
 $app->group(['prefix' => 'v1','middleware' => ['token', 'headerjson'], 'namespace' => 'App\Http\Controllers'], function ($app) {
 
-     $app->post('mobile','MobileController@create');     
+     $app->post('mobile','MobileController@post');     
      $app->get('mobile','MobileController@index');     
     
 });

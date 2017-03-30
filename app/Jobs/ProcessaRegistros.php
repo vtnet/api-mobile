@@ -2,41 +2,26 @@
 
 namespace App\Jobs;
 
+use App\Http\Controllers\JobsController;
 use Illuminate\Bus\Queueable;
-use Illuminate\Queue\SerializesModels;
-use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Contracts\Queue\ShouldQueue;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 
 class ProcessaRegistros implements ShouldQueue
 {
     use InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $json;
+    protected $id_telefone;
+    protected $registros;
 
-    /**
-     * Create a new job instance.
-     *
-     * @param  Podcast  $podcast
-     * @return void
-     */
-    public function __construct($json)
+    public function __construct($id_telefone, $registros)
     {
-        $this->json = $json;
+        $this->id_telefone = $id_telefone;
+        $this->registros = $registros;
     }
-
-    /**
-     * Execute the job.
-     *
-     * @param  AudioProcessor  $processor
-     * @return void
-     */
-    public function handle()
+    public function handle(JobsController $JobsController)
     {
-
-
-        $a = fopen(storage_path('logs/'.$this->json.'.log'),'a+');
-        for ($i=0; $i < 1000000; $i++) { 
-            fwrite($a, $this->json.$i."\n");
-        }
+        $JobsController->insertConsumo($this->id_telefone, $this->registros); 
     }
 }
