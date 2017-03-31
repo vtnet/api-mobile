@@ -83,7 +83,8 @@ class MobileController extends Controller{
   
 
     public function post(Request $request){
-        $telefones_id=($request->User)->id;
+        $objUser=$request->User;
+        $telefones_id=$objUser->id;
         $arr =  json_encode($request->all());
 
         // $job = (new ProcessaRegistros($telefones_id, $arr))
