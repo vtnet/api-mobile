@@ -37,35 +37,24 @@ class JobsController extends Controller
 
                  if($this->validateDate($ligacoes[$i]['data'])){
 
-                     LigacoesModel::create(
-                     ['datatime'=>$ligacoes[$i]['data'],
-                     'qtd'=>$ligacoes[$i]['qtd'],
-                     'destino'=>$ligacoes[$i]['destino'],
-                     'telefones_id'=> $id_telefone,
-                     'tipo'=>'local'
-                     ]);
-                     // $retorno['success'][]=$arr[$i];
-    
-                    // DB::insert('insert into ligacoes (datatime, qtd, destino, telefones_id, tipo) values (?, ?, ?, ?, ?)', [
-                    //         $ligacoes[$i]['data'],
-                    //         $ligacoes[$i]['qtd'],
-                    //         $ligacoes[$i]['destino'],
-                    //         $id_telefone,
-                    //         'local'
-                    //         ]);
+                        $montante[]=['datatime'=>$ligacoes[$i]['data'],'qtd'=>$ligacoes[$i]['qtd'],'destino'=>$ligacoes[$i]['destino'],'telefones_id'=> $id_telefone,'tipo'=>'local'];
 
                     }else{
                         // return response()->json(['bosta'=>'f']);
                     }
                   
                 }
-         }
+             }
+
+            if(isset($montante)) DB::table('ligacoes')->insert($montante);
+                
+
    
              // Terminamos o "contador" e exibimos
             list($usec, $sec) = explode(' ', microtime());
             $script_end = (float) $sec + (float) $usec;
             $elapsed_time = round($script_end - $script_start, 5);
-            echo 'Elapsed time: ', $elapsed_time, ' secs. Memory usage: ', round(((memory_get_peak_usage(true) / 1024) / 1024), 2), 'Mb';
+            echo 'Elapsed time: ', $elapsed_time, ' secs. Memory usage: ', round(((memory_get_peak_usage() / 1024) / 1024), 2), 'Mb';
             // return response()->json(['status'=>['code'=>200,'mensagem'=>'Enviado com sucesso']],200);
         }
 

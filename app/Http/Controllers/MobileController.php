@@ -54,7 +54,32 @@ class MobileController extends Controller{
         return response()->json($array);
     }
 
+
+    /**
+     * Simulando retorno
+     * @return [type] [description]
+     */
+    public function indexTeste(){
+        $array['status']=['code'=>200,'mensagem'=>'Enviado com sucesso'];
+        $array['ligacao']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
+        $array['ligacao']['local']=['consumo'=>100,'limite'=>500];
+        $array['ligacao']['roaming']=['consumo'=>100,'limite'=>500];
+
+        $array['sms']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
+        $array['sms']['local']=['consumo'=>100,'limite'=>500];
+        $array['sms']['roaming']=['consumo'=>100,'limite'=>500];
+
+        $array['dados']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
+        $array['dados']['local']=['consumo'=>100,'limite'=>500];
+        $array['dados']['roaming']=['consumo'=>100,'limite'=>500];
+
+
+        return response()->json($array);
+    }
    
+     public function postTeste(Request $request){
+        return response()->json(['status'=>['code'=>200,'mensagem'=>'Enviado com sucesso']],200);
+    }
   
 
     public function post(Request $request){
