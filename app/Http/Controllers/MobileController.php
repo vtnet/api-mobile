@@ -7,14 +7,60 @@ use App\Http\Model\LigacoesModel;
 use App\Jobs\ProcessaRegistros;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Monolog\Handler\FirePHPHandler;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use Validator;
   
 class MobileController extends Controller{
-  
 
+    public function tratar_string($texto){
+        
+        $array1 = array(   "á", "à", "â", "ã", "ä", "é", "è", "ê", "ë", "í", "ì", "î", "ï", "ó", "ò", "ô", "õ", "ö", "ú", "ù", "û", "ü", "ç"
+                     , "Á", "À", "Â", "Ã", "Ä", "É", "È", "Ê", "Ë", "Í", "Ì", "Î", "Ï", "Ó", "Ò", "Ô", "Õ", "Ö", "Ú", "Ù", "Û", "Ü", "Ç"
+                     , "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o"
+                     , "p", "q", "r", "s", "t", "u", "v", "x", "z", "w", "y", "~", "^", "/", "&");
+    
+        $array2 = array(   "A", "A", "A", "A", "A", "E", "E", "E", "E", "I", "I", "I", "I", "O", "O", "O", "O", "O", "U", "U", "U", "U", "C"
+                     , "A", "A", "A", "A", "A", "E", "E", "E", "E", "I", "I", "I", "I", "O", "O", "O", "O", "O", "U", "U", "U", "U", "C" 
+                     , "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O"
+                     , "P", "Q", "R", "S", "T", "U", "V", "X", "Z", "W", "Y", "", "", "", "");
+                     
+        return str_replace($array1, $array2, $texto);
+        
+    } 
+  
+    public function csv(){
+        $row = 0;
+        if (($handle = fopen(storage_path('app')."/informacoes-DDD.csv", "r")) !== FALSE) {
+            $array=array();
+             while (($data = fgetcsv($handle, 0, ";")) !== FALSE) {
+                if($row!=0){
+                    $num = count($data);
+                    $prefix = filter_var($this->tratar_string($data[0]), FILTER_SANITIZE_STRING);
+                    $estado = filter_var($this->tratar_string($data[1]), FILTER_SANITIZE_STRING);
+                    $cidade = filter_var($this->tratar_string($data[2]), FILTER_SANITIZE_STRING);
+                    $ddd = filter_var($this->tratar_string($data[3]), FILTER_SANITIZE_STRING);
+
+                    //Verifica se o estado ja existe no array
+                    $estado_id = array_search($estado, $array);
+                    if(!$estado_id){
+                        $Estado = \App\Http\Model\EstadosModel::firstOrCreate(['estado' => $estado, 'prefix'=>$prefix]);
+                        $array[$Estado->id] = $estado;
+                        $estado_id = $Estado->id;
+                    }
+
+                    $Cidade = \App\Http\Model\CidadesModel::firstOrCreate(['estado_id' => $estado_id, 'cidade'=>$cidade, 'ddd'=>$ddd]);
+                }
+                $row++;
+             }
+        }
+
+
+        // dd($contents);
+        return '<hr /><hr />FIM';
+    }
 
     public function index(){
 // Log::alert('fff');
@@ -83,8 +129,7 @@ class MobileController extends Controller{
   
 
     public function post(Request $request){
-        $objUser=$request->User;
-        $telefones_id=$objUser->id;
+        $telefones_id=$request->User->id;
         $arr =  json_encode($request->all());
 
         // $job = (new ProcessaRegistros($telefones_id, $arr))

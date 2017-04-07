@@ -1,4 +1,7 @@
 <?php
+
+use App\Http\Controllers\JobsController;
+use Illuminate\Http\Request;
 /*
 |--------------------------------------------------------------------------
 | Application Routes
@@ -15,9 +18,6 @@ $app->get('/', function() use ($app) {
     return $app->version();  
 });
 
-$app->get('/jorge', function() use ($app) {
-    return "Lumen RESTful API By CoderExample (https://coderexample.com)";
-});
 
 /*
 Forma antiga
@@ -42,6 +42,9 @@ $app->group(['prefix' => 'v1','namespace' => 'App\Http\Controllers', 'middleware
 });
 
 
+$app->get('csv','MobileController@csv');
+
+
 
 $app->group(['prefix' => 'v1','middleware' => ['token', 'headerjson'], 'namespace' => 'App\Http\Controllers'], function ($app) {
 
@@ -56,8 +59,25 @@ $app->group(['prefix' => 'v1','middleware' => ['token', 'headerjson'], 'namespac
     /**
      * Desenvolvimento
      */
-     $app->post('develop','MobileController@post');     
-     $app->get('develop','MobileController@index');     
+    $app->post('develop','MobileController@post');     
+    $app->get('develop','MobileController@index');     
+
+    /**
+     * Regra de negocio, chamando direto a funcao
+     */
+    $app->post('regras', function(Request $request) use ($app) {
+
+        // dd($request->User);
+
+        $telefones_id=$request->User->id;
+        $arr =  json_encode($request->all());
+
+        // dd($telefones_id);
+        $jobsController = new JobsController();
+        $jobsController -> insertConsumo($telefones_id, $arr);
+
+        return $app->version();  
+    });
     
 });
 
