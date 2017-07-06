@@ -101,6 +101,7 @@ class LoginController extends Controller{
         }
 
         $token = md5($output['id']);
+        $logo = 'http://ios.org.br/wp-content/uploads/2015/11/anhanguera_comassinatura.jpg';
         $id_datascan = $output['id'];
         $nome = $output['nome'];
 
@@ -123,7 +124,7 @@ class LoginController extends Controller{
                     'id_onesignal'=>$id_onesignal,
                     'id_device'=>$id_device]);
 
-        return response()->json(['status'=>['code'=>200,'mensagem'=>'OK'], 'token'=>$token]);
+        return response()->json(['status'=>['code'=>200,'mensagem'=>'OK'], 'token'=>$token, 'logo'=>$logo]);
         // return response()->json(array('token'=>$token));
 
     }
