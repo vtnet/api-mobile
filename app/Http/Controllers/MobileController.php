@@ -107,19 +107,75 @@ class MobileController extends Controller{
      */
     public function indexTeste(){
         $array['status']=['code'=>200,'mensagem'=>'Enviado com sucesso'];
-        $array['ligacao']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
-        $array['ligacao']['local']=['consumo'=>100,'limite'=>500];
-        $array['ligacao']['roaming']=['consumo'=>100,'limite'=>500];
 
-        $array['sms']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
-        $array['sms']['local']=['consumo'=>100,'limite'=>500];
-        $array['sms']['roaming']=['consumo'=>100,'limite'=>500];
+        $array['ciclo'] = '19-jun / 20-jul';
+        $array['plano'] = '1 GB';
 
-        $array['dados']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
-        $array['dados']['local']=['consumo'=>100,'limite'=>500];
-        $array['dados']['roaming']=['consumo'=>100,'limite'=>500];
+        // $array['ligacao']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
+        // $array['ligacao']['local']=['consumo'=>100,'limite'=>500];
+        // $array['ligacao']['roaming']=['consumo'=>100,'limite'=>500];
 
+        // $array['sms']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
+        // $array['sms']['local']=['consumo'=>100,'limite'=>500];
+        // $array['sms']['roaming']=['consumo'=>100,'limite'=>500];
 
+        //--------------------------------------------------------------------------
+
+        $array['dados'][0]['name'] = 'App1';
+        $array['dados'][0]['package'] = 'br.com.android';
+
+        $array['dados'][0]['trafficRecords'][0]['rx'] = '1';
+        $array['dados'][0]['trafficRecords'][0]['tx'] = '2';
+        $array['dados'][0]['trafficRecords'][0]['type'] = 'MOBILE';
+        $array['dados'][0]['trafficRecords'][0]['isRoamming'] = false;
+        $array['dados'][0]['trafficRecords'][0]['active'] = false;
+
+        $array['dados'][0]['trafficRecords'][1]['rx'] = '2';
+        $array['dados'][0]['trafficRecords'][1]['tx'] = '2';
+        $array['dados'][0]['trafficRecords'][1]['type'] = 'MOBILE';
+        $array['dados'][0]['trafficRecords'][1]['isRoamming'] = true;
+        $array['dados'][0]['trafficRecords'][1]['active'] = false;
+
+        $array['dados'][0]['trafficRecords'][2]['rx'] = '5';
+        $array['dados'][0]['trafficRecords'][2]['tx'] = '2';
+        $array['dados'][0]['trafficRecords'][2]['type'] = 'WIFI';
+        $array['dados'][0]['trafficRecords'][2]['isRoamming'] = false;
+        $array['dados'][0]['trafficRecords'][2]['active'] = false;
+
+        //----------------------------------------------------------------------------
+
+        $array['dados'][1]['name'] = 'App2';
+        $array['dados'][1]['package'] = 'br.com.android';
+        
+        $array['dados'][1]['trafficRecords'][0]['rx'] = '1';
+        $array['dados'][1]['trafficRecords'][0]['tx'] = '2';
+        $array['dados'][1]['trafficRecords'][0]['type'] = 'MOBILE';
+        $array['dados'][1]['trafficRecords'][0]['isRoamming'] = false;
+        $array['dados'][1]['trafficRecords'][0]['active'] = false;
+
+        // [{
+        //     "name": "app1",
+        //     "pachage": "br.com.android",
+        //     "trafficRecords": [{
+        //             "date": "yyyy-MM-dd HH:mm:ss",
+        //             "rx": 1,
+        //             "tx": 1,
+        //             "type": "MOBILE",
+        //             "isRoamming": false,
+        //             "active": false
+        //         },
+        //         {
+        //             "date": "yyyy-MM-dd HH:mm:ss",
+        //             "rx": 1,
+        //             "tx": 1,
+        //             "type": "MOBILE",
+        //             "isRoamming": false,
+        //             "active": false
+        //         }
+        //     ]
+        // }]
+         
+        
         return response()->json($array);
     }
    

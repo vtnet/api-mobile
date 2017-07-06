@@ -30,77 +30,84 @@ class JobsController extends Controller
         // list($usec, $sec) = explode(' ', microtime());
         // $script_start = (float) $sec + (float) $usec;
 
-
         if(isset($arr['ligacoes'])){
             $ligacoes = $arr['ligacoes'];
 
             for($i=0,$C=count($ligacoes); $i<$C; $i++){
-
+                $tipo ='';
                 if((isset($ligacoes[$i]['data'])) && (isset($ligacoes[$i]['qtd'])) && (isset($ligacoes[$i]['destino'])))    
                 {
 
                     if($this->validateDate($ligacoes[$i]['data'])){
-
 
                        /**
                         * Tratamento numero destino
                         */
                         $len = strlen($ligacoes[$i]['destino']);
                         $num = intval($ligacoes[$i]['destino']);
-                        switch ($len) {
-                            //Local
-                            case 8:
-                            case 9:
-                                break;
 
-                            case 10:
-                            case 11:
-                                // DDD
+                        if(preg_match('/^00/', $num, $matches)){
+                        
+                            $tipo = 'DDI';
+                        }else{
+                            switch ($len) {
+                                //Local
+                                case 8:
+                                case 9:
+                                    $destinoDDD =0;
+                                    $tipo = 'LOCAL';
+                                    break;
+
+                                case 10:
+                                case 11:
+                                    // DDD
+                                    
+                                    if(preg_match('/^([0-9]{2})/', $num, $matches))
+                                        $destinoDDD = $matches[1];
+                                    break;
                                 
-                                preg_match('/^([0-9]{2})/', $num, $matches);
-                                break;
-                            
-                            case 12:
-                            case 13:
-                                // 21DDD
-                             
-                                preg_match('/^[0-9]{2}([0-9]{2})/', $num, $matches);
-                                break;
+                                case 12:
+                                case 13:
+                                    // 21DDD
 
-                            default:
-                                
-                                break;
-                        }
+                                    if(preg_match('/^[0-9]{2}([0-9]{2})/', $num, $matches))
+                                        $destinoDDD = $matches[1];
+                                    break;
 
-                        $destinoDDD = $matches[1];
-
-
-
-                        /**
-                         * Minha localização com o google
-                         */
-                        $Localiza = $LocationController->getLocation(trim($ligacoes[$i]['localizacao']));
-
-                        if($Localiza){
-
-                            $usersLocaliza = DB::table('cidades')
-                            ->join('estados', 'estados.id', '=', 'cidades.estado_id')
-                            ->where('cidades.cidade', '=', $Localiza['city'])
-                            ->where('estados.prefix', '=', $Localiza['province'])
-                            ->first();
-
-                            if($usersLocaliza->ddd == intval($destinoDDD)){
-                                $tipo = 'local';
-                            }else{
-                                $tipo = 'ld';
+                                default:
+                                    $destinoDDD =0;
+                                    $tipo = 'DDI';
+                                    break;
                             }
 
-                            $montante[]=['datatime'=>$ligacoes[$i]['data'],'qtd'=>$ligacoes[$i]['qtd'],'destino'=>$ligacoes[$i]['destino'],'telefones_id'=> $id_telefone,'tipo'=>$tipo];
+                            if($destinoDDD){
+                                /**
+                                 * Minha localização com o google
+                                 */
+                                $Localiza = $LocationController->getLocation(trim($ligacoes[$i]['localizacao']));
+
+                                if($Localiza){
+
+                                    $usersLocaliza = DB::table('cidades')
+                                    ->join('estados', 'estados.id', '=', 'cidades.estado_id')
+                                    ->where('cidades.cidade', '=', $Localiza['city'])
+                                    ->where('estados.prefix', '=', $Localiza['province'])
+                                    ->first();
+
+                                    if($usersLocaliza->ddd == intval($destinoDDD)){
+                                        $tipo = 'LOCAL';
+                                    }else{
+                                        $tipo = 'LD';
+                                    }
+                                }
+                            }
                         }
+
+                        $montante[]=['datatime'=>$ligacoes[$i]['data'],'qtd'=>$ligacoes[$i]['qtd'],'destino'=>$ligacoes[$i]['destino'],'telefones_id'=> $id_telefone,'tipo'=>$tipo, 'localizacao'=>$ligacoes[$i]['localizacao']];
+
                     }else{
                         // return response()->json(['bosta'=>'f']);
                     }
-                  
                 }
              }
 

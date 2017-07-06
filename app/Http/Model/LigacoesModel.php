@@ -9,7 +9,7 @@ class LigacoesModel extends Model
      
 
     protected $table = 'ligacoes';
-    protected $fillable = ['telefones_id','datatime','destino','qtd','tipo'];
+    protected $fillable = ['telefones_id','datatime','destino','qtd','tipo','localizacao'];
     // public $timestamps = false;
      
 }
