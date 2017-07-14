@@ -126,19 +126,19 @@ class MobileController extends Controller{
 
         $array['dados'][0]['trafficRecords'][0]['rx'] = '1';
         $array['dados'][0]['trafficRecords'][0]['tx'] = '2';
-        $array['dados'][0]['trafficRecords'][0]['type'] = 'MOBILE';
+        $array['dados'][0]['trafficRecords'][0]['type'] = 1;
         $array['dados'][0]['trafficRecords'][0]['isRoamming'] = false;
         $array['dados'][0]['trafficRecords'][0]['active'] = false;
 
         $array['dados'][0]['trafficRecords'][1]['rx'] = '2';
         $array['dados'][0]['trafficRecords'][1]['tx'] = '2';
-        $array['dados'][0]['trafficRecords'][1]['type'] = 'MOBILE';
+        $array['dados'][0]['trafficRecords'][1]['type'] = 1;
         $array['dados'][0]['trafficRecords'][1]['isRoamming'] = true;
         $array['dados'][0]['trafficRecords'][1]['active'] = false;
 
         $array['dados'][0]['trafficRecords'][2]['rx'] = '5';
         $array['dados'][0]['trafficRecords'][2]['tx'] = '2';
-        $array['dados'][0]['trafficRecords'][2]['type'] = 'WIFI';
+        $array['dados'][0]['trafficRecords'][2]['type'] = 0;
         $array['dados'][0]['trafficRecords'][2]['isRoamming'] = false;
         $array['dados'][0]['trafficRecords'][2]['active'] = false;
 
@@ -149,7 +149,7 @@ class MobileController extends Controller{
         
         $array['dados'][1]['trafficRecords'][0]['rx'] = '1';
         $array['dados'][1]['trafficRecords'][0]['tx'] = '2';
-        $array['dados'][1]['trafficRecords'][0]['type'] = 'MOBILE';
+        $array['dados'][1]['trafficRecords'][0]['type'] = 1;
         $array['dados'][1]['trafficRecords'][0]['isRoamming'] = false;
         $array['dados'][1]['trafficRecords'][0]['active'] = false;
 
