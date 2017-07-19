@@ -106,10 +106,15 @@ class MobileController extends Controller{
      * @return [type] [description]
      */
     public function indexTeste(){
-        $array['status']=['code'=>200,'mensagem'=>'Enviado com sucesso'];
+        $array['status']=['code'=>200,'mensagem'=>'OK'];
 
-        $array['ciclo'] = '19-jun / 20-jul';
-        $array['plano'] = '1 GB';
+        $array['dados']['ciclo'] = '19-07 / 20-07';
+        $array['dados']['plano'] = '10000';
+
+        $array['dados']['consumo']['mobile'] = '20000';
+        $array['dados']['consumo']['wifi'] = '30000';
+        $array['dados']['consumo']['roaming'] = '5000';
+
 
         // $array['ligacao']['status_proccess']=['status'=>'processamento', 'status_update'=>''];
         // $array['ligacao']['local']=['consumo'=>100,'limite'=>500];
@@ -121,37 +126,37 @@ class MobileController extends Controller{
 
         //--------------------------------------------------------------------------
 
-        $array['dados'][0]['name'] = 'App1';
-        $array['dados'][0]['package'] = 'br.com.android';
+        $array['dados']['apps'][0]['name'] = 'App1';
+        $array['dados']['apps'][0]['package'] = 'br.com.android.app1';
 
-        $array['dados'][0]['trafficRecords'][0]['rx'] = '1';
-        $array['dados'][0]['trafficRecords'][0]['tx'] = '2';
-        $array['dados'][0]['trafficRecords'][0]['type'] = 1;
-        $array['dados'][0]['trafficRecords'][0]['isRoamming'] = false;
-        $array['dados'][0]['trafficRecords'][0]['active'] = false;
+        $array['dados']['apps'][0]['trafficRecords'][0]['rx'] = '1';
+        $array['dados']['apps'][0]['trafficRecords'][0]['tx'] = '2';
+        $array['dados']['apps'][0]['trafficRecords'][0]['type'] = 1;
+        $array['dados']['apps'][0]['trafficRecords'][0]['isRoamming'] = false;
+        $array['dados']['apps'][0]['trafficRecords'][0]['active'] = false;
 
-        $array['dados'][0]['trafficRecords'][1]['rx'] = '2';
-        $array['dados'][0]['trafficRecords'][1]['tx'] = '2';
-        $array['dados'][0]['trafficRecords'][1]['type'] = 1;
-        $array['dados'][0]['trafficRecords'][1]['isRoamming'] = true;
-        $array['dados'][0]['trafficRecords'][1]['active'] = false;
+        $array['dados']['apps'][0]['trafficRecords'][1]['rx'] = '2';
+        $array['dados']['apps'][0]['trafficRecords'][1]['tx'] = '2';
+        $array['dados']['apps'][0]['trafficRecords'][1]['type'] = 1;
+        $array['dados']['apps'][0]['trafficRecords'][1]['isRoamming'] = true;
+        $array['dados']['apps'][0]['trafficRecords'][1]['active'] = false;
 
-        $array['dados'][0]['trafficRecords'][2]['rx'] = '5';
-        $array['dados'][0]['trafficRecords'][2]['tx'] = '2';
-        $array['dados'][0]['trafficRecords'][2]['type'] = 0;
-        $array['dados'][0]['trafficRecords'][2]['isRoamming'] = false;
-        $array['dados'][0]['trafficRecords'][2]['active'] = false;
+        $array['dados']['apps'][0]['trafficRecords'][2]['rx'] = '5';
+        $array['dados']['apps'][0]['trafficRecords'][2]['tx'] = '2';
+        $array['dados']['apps'][0]['trafficRecords'][2]['type'] = 0;
+        $array['dados']['apps'][0]['trafficRecords'][2]['isRoamming'] = false;
+        $array['dados']['apps'][0]['trafficRecords'][2]['active'] = false;
 
         //----------------------------------------------------------------------------
 
-        $array['dados'][1]['name'] = 'App2';
-        $array['dados'][1]['package'] = 'br.com.android';
+        $array['dados']['apps'][1]['name'] = 'App2';
+        $array['dados']['apps'][1]['package'] = 'br.com.android.app2';
         
-        $array['dados'][1]['trafficRecords'][0]['rx'] = '1';
-        $array['dados'][1]['trafficRecords'][0]['tx'] = '2';
-        $array['dados'][1]['trafficRecords'][0]['type'] = 1;
-        $array['dados'][1]['trafficRecords'][0]['isRoamming'] = false;
-        $array['dados'][1]['trafficRecords'][0]['active'] = false;
+        $array['dados']['apps'][1]['trafficRecords'][0]['rx'] = '1';
+        $array['dados']['apps'][1]['trafficRecords'][0]['tx'] = '2';
+        $array['dados']['apps'][1]['trafficRecords'][0]['type'] = 1;
+        $array['dados']['apps'][1]['trafficRecords'][0]['isRoamming'] = false;
+        $array['dados']['apps'][1]['trafficRecords'][0]['active'] = false;
 
         // [{
         //     "name": "app1",
