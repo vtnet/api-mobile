@@ -185,6 +185,11 @@ class MobileController extends Controller{
     }
    
      public function postTeste(Request $request){
+
+        $arr =  json_encode($request->all());
+        $fp = fopen('/var/www/api-mobile/storage/logs/dados.txt', 'a+');
+        fwrite($fp, $arr);
+
         return response()->json(['status'=>['code'=>200,'mensagem'=>'Enviado com sucesso']],200);
     }
   
